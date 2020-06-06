@@ -1,0 +1,80 @@
+MLT-BT05
+AT+VERSION
+AT+ROLE
+AT+LADDR
+     +LADDR=C8:FD:19:66:E3:6D
+AT+NAME
+AT+PIN123456
+     +PIN=123456
+AT+UUID
+
+Master
+AT+BAND
+
+1.	設計Arduino程式For Slave藍牙模組
+
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(10, 11);
+void setup()
+{
+  BTSerial.begin(38400);
+}
+
+_ABVAR_1_cmd = BTSerial.read();
+
+2.	設計Arduino程式For Master藍牙模組
+
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(10, 11);
+void setup()
+{
+  BTSerial.begin(38400);
+}
+void loop()
+{
+BTSerial.write('1');
+}
+
+3.	測試Master Slave配對
+
+使用SoftwareSerial定義 D10為RX , D11為TX，
+兩個Arduino對連，RX接對方TX，TX接對方RX，
+可以在沒藍牙模組時，用有線方式開發程式，
+到時設定好藍牙模組，接上立即可用
+共地
+
+AT+ORGL    Restore default status
+AT+PSWD?
+AT+NAME?
+
+Serial Monitor(序列埠監控視窗):   NL&CR
+
+在當 slave 的 HC-05 必須執行的 AT command ：
+
+AT+UART=38400,0,0    baud rate
+AT+CMODE=0           set/Inquire connection mode   將模塊連接到指定的藍牙地址
+AT+ROLE=0            set/Inquire module role       設定 Master/Slave 
+AT+ADDR?              Get module Bluetooth address  取得藍牙模組位置
++ADDR:0019:10:0979C5
+
+AT+UART?
+AT+CMODE?
+AT+ROLE?
+
+要記下 +ADDR: 後面的那串數字「98d3:31:3039e6」
+slave 的 address，設定 master 時會用到。
+
+在當 master 的 HC-05 必須執行的 AT command ：
+AT+UART=38400,0,0
+AT+CMODE=0
+AT+ROLE=1
+AT+BIND=0019,10,0979C5    Set/Inquire - bind Bluetooth address
+        
+(注意：98d3,31,3039e6 請自行置換成您查到的 slave address)
+
+AT+UART?
+AT+CMODE?
+AT+ROLE?
+AT+BIND?
+
+HC-03/05 Embedded Bluetooth Serial Communication Module AT command set
