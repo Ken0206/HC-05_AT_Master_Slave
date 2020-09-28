@@ -19,7 +19,7 @@ void loop()
     }
     else
     {
-      Serial.write('1');
+      Serial.write('2');
     }
     delay( 500 );
   }
