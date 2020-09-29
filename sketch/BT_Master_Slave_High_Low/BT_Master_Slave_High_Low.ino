@@ -39,13 +39,14 @@ int _ABVAR_3_pin_event_2 = 0;
 void setup()
 {
   pinMode( 2 , INPUT);
-  Serial.begin(9600);
+  Serial.begin(38400);
   pinMode( 13 , OUTPUT);
   mySCoop.start();
 }
 
 void loop()
 {
+  delay( 1 );
   _ABVAR_1_cmd = Serial.read();
   if (( ( _ABVAR_1_cmd ) == ('1') ))
   {
@@ -58,34 +59,36 @@ void loop()
   yield();
 }
 
-defineTask(scoopTask1)
-void scoopTask1::setup()
+defineTask(scoopTask40)
+void scoopTask40::setup()
 {
   _ABVAR_2_pin_event_2 = digitalRead(2);
 }
 
-void scoopTask1::loop()
+void scoopTask40::loop()
 {
   int abvarCurrentStatus = digitalRead(2);
-  if (isABEventTriggered(3, _ABVAR_2_pin_event_2, abvarCurrentStatus))
+  if (isABEventTriggered(0, _ABVAR_2_pin_event_2, abvarCurrentStatus))
   {
-    Serial.write('1');
+    sleep(200);
+    Serial.write('2');
   }
   _ABVAR_2_pin_event_2 = abvarCurrentStatus;
 }
 
-defineTask(scoopTask2)
-void scoopTask2::setup()
+defineTask(scoopTask41)
+void scoopTask41::setup()
 {
   _ABVAR_3_pin_event_2 = digitalRead(2);
 }
 
-void scoopTask2::loop()
+void scoopTask41::loop()
 {
   int abvarCurrentStatus = digitalRead(2);
-  if (isABEventTriggered(2, _ABVAR_3_pin_event_2, abvarCurrentStatus))
+  if (isABEventTriggered(1, _ABVAR_3_pin_event_2, abvarCurrentStatus))
   {
-    Serial.write('2');
+    sleep(200);
+    Serial.write('1');
   }
   _ABVAR_3_pin_event_2 = abvarCurrentStatus;
 }
