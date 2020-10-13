@@ -40,7 +40,7 @@ void setup()
 {
   pinMode( 2 , INPUT);
   Serial.begin(38400);
-  pinMode( 13 , OUTPUT);
+  pinMode( 12 , OUTPUT);
   mySCoop.start();
 }
 
@@ -50,11 +50,11 @@ void loop()
   _ABVAR_1_cmd = Serial.read();
   if (( ( _ABVAR_1_cmd ) == ('1') ))
   {
-    digitalWrite( 13 , HIGH );
+    digitalWrite( 12 , HIGH );
   }
   if (( ( _ABVAR_1_cmd ) == ('2') ))
   {
-    digitalWrite( 13 , LOW );
+    digitalWrite( 12 , LOW );
   }
   yield();
 }
